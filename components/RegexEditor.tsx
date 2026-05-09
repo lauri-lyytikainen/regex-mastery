@@ -10,6 +10,8 @@ interface Props {
   initialPattern?: string;
   initialFlags?: Flag[];
   text?: string;
+  onChange?: (pattern: string, flags: Flag[]) => void;
+  isCorrect?: boolean;
 }
 
 const FLAG_LIST = ["g", "i", "m"] as const;
@@ -25,6 +27,8 @@ export const RegexEditor = ({
   initialPattern = "",
   initialFlags = ["g"],
   text = "",
+  onChange,
+  isCorrect,
 }: Props) => {
   const [pattern, setPattern] = useState(initialPattern);
   const [flags, setFlags] = useState<Flag[]>(initialFlags);
@@ -46,8 +50,10 @@ export const RegexEditor = ({
         <Input
           value={pattern}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            const newPattern = e.target.value;
             setError(null);
-            setPattern(e.target.value);
+            setPattern(newPattern);
+            onChange?.(newPattern, flags);
           }}
           placeholder="Enter your regex here..."
           aria-invalid={!!error}
@@ -59,8 +65,10 @@ export const RegexEditor = ({
               type="multiple"
               value={flags}
               onValueChange={(vals) => {
+                const newFlags = normalizeFlags(vals);
                 setError(null);
-                setFlags(normalizeFlags(vals));
+                setFlags(newFlags);
+                onChange?.(pattern, newFlags);
               }}
             >
               {FLAG_LIST.map((f) => (
@@ -89,6 +97,7 @@ export const RegexEditor = ({
             flags={flagString}
             text={text}
             onError={(err) => setError(String(err?.message || err))}
+            isCorrect={isCorrect}
           />
         </div>
       </div>

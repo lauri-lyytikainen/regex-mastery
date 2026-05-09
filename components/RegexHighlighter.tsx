@@ -4,6 +4,7 @@ import { useMemo, useEffect, ReactNode } from "react";
 import { compilePattern, getMatches, Match } from "@/lib/regexUtils";
 import { cn } from "@/lib/utils";
 import { Card } from "./retroui/Card";
+import { Badge } from "./retroui/Badge";
 
 interface Props {
   pattern: string;
@@ -12,6 +13,7 @@ interface Props {
   className?: string;
   matchClassName?: string;
   onError?: (err: Error) => void;
+  isCorrect?: boolean;
 }
 
 function tokenizePattern(pattern: string) {
@@ -37,6 +39,7 @@ export const RegexHighlighter = ({
   className = "",
   matchClassName = "bg-yellow-200 rounded-sm m-0",
   onError,
+  isCorrect,
 }: Props) => {
   const compiled = useMemo(
     () => compilePattern(pattern, flags),
@@ -72,7 +75,10 @@ export const RegexHighlighter = ({
       out.push(
         <span
           key={`match-${i}`}
-          className={cn(matchClassName, "ring-1 ring-yellow-200 relative z-0")}
+          className={cn(
+            matchClassName,
+            "mx-1 ring-1 ring-yellow-200 relative z-0",
+          )}
         >
           {text.slice(m.start, m.end)}
         </span>,
@@ -91,25 +97,36 @@ export const RegexHighlighter = ({
 
   return (
     <div className={cn("w-full", className)}>
-      <div className="mb-2 text-sm">
-        <span className="font-medium mr-2">Pattern:</span>
-        <code className="p-1 rounded bg-surface text-sm">
-          {patternTokens.map((t, i) => {
-            const cls = t.startsWith("\\")
-              ? "bg-purple-600"
-              : t.startsWith("[")
-                ? "bg-emerald-600"
-                : /[+*?{}]/.test(t)
-                  ? "bg-rose-600"
-                  : "text-foreground";
-            return (
-              <span key={i} className={cls + " p-1 rounded-sm mr-1"}>
-                {t}
-              </span>
-            );
-          })}
-          <span className="text-muted-foreground">/{flags}</span>
-        </code>
+      <div className="mb-2 text-sm flex items-center justify-between">
+        <div>
+          <span className="font-medium mr-2">Pattern:</span>
+          <code className="p-1 rounded bg-surface text-sm">
+            {patternTokens.map((t, i) => {
+              const cls = t.startsWith("\\")
+                ? "bg-purple-600"
+                : t.startsWith("[")
+                  ? "bg-emerald-600"
+                  : /[+*?{}]/.test(t)
+                    ? "bg-rose-600"
+                    : "text-foreground";
+              return (
+                <span key={i} className={cls + " p-1 rounded-sm mr-1"}>
+                  {t}
+                </span>
+              );
+            })}
+            <span className="text-muted-foreground">/{flags}</span>
+          </code>
+        </div>
+        {isCorrect ? (
+          <Badge variant="surface" size="sm" className="bg-green-500">
+            Correct
+          </Badge>
+        ) : (
+          <Badge variant="surface" size="sm" className="bg-red-500">
+            Incorrect
+          </Badge>
+        )}
       </div>
 
       {compiled.error ? (
