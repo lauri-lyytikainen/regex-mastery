@@ -1,24 +1,64 @@
 import { Badge } from "./retroui/Badge";
 import { Button } from "./retroui/Button";
 import Link from "next/link";
+import { Select } from "./retroui/Select";
 
 export default function Header() {
   return (
-    <header className="bg-background py-4">
-      <div className="relative container mx-auto px-4 flex flex-col lg:flex-row items-center">
-        <Badge variant="surface">
-          <Link href="/">
-            <h1 className="text-3xl font-bold">Regex Mastery</h1>
+    <header className="bg-background py-4 border-b-2 border-foreground">
+      <div className="container mx-auto px-4 flex items-center justify-between gap-4">
+        <Link href="/">
+          <div className="flex gap-4 items-center">
+            <Badge
+              variant="surface"
+              className="aspect-square flex items-center justify-center px-2 text-2xl font-bold"
+            >
+              /g
+            </Badge>
+            <Badge variant="outline" className="hidden lg:block ">
+              <h1 className="text-2xl font-bold">Regex Mastery</h1>
+            </Badge>
+          </div>
+        </Link>
+
+        <nav className="flex flex-row gap-4 lg:gap-8 flex-1 justify-center mt-1">
+          <Link
+            href="/learn"
+            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
+          >
+            Learn
           </Link>
-        </Badge>
-        <div className="mt-4 flex flex-row gap-2 lg:mt-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
-          <Link href="/learn" passHref>
-            <Button variant="link">Learn</Button>
+          <Link
+            href="/challenges"
+            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
+          >
+            Challenges
           </Link>
-          <Button variant="link">Challenges</Button>
-          <Button variant="link">Cheatsheet</Button>
-          <Button variant="link">Playground</Button>
-        </div>
+          <Link
+            href="/cheatsheet"
+            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
+          >
+            Cheatsheet
+          </Link>
+          <Link
+            href="/playground"
+            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
+          >
+            Playground
+          </Link>
+        </nav>
+
+        <Select>
+          <Select.Trigger className="min-w-0 w-20">
+            <Select.Value placeholder="EN" />
+          </Select.Trigger>
+          <Select.Content>
+            <Select.Group>
+              <Select.Item value="en">EN</Select.Item>
+              <Select.Item value="fi">FI</Select.Item>
+            </Select.Group>
+          </Select.Content>
+        </Select>
       </div>
     </header>
   );
