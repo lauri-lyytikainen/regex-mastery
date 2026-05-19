@@ -1,7 +1,15 @@
 import { Badge } from "./retroui/Badge";
-import { Button } from "./retroui/Button";
 import Link from "next/link";
 import { Select } from "./retroui/Select";
+import { Menu } from "./retroui/Menu";
+import { MenuIcon } from "lucide-react";
+
+const navLinks = [
+  { href: "/learn", label: "Learn" },
+  { href: "/challenges", label: "Challenges" },
+  { href: "/cheatsheet", label: "Cheatsheet" },
+  { href: "/playground", label: "Playground" },
+];
 
 export default function Header() {
   return (
@@ -15,50 +23,52 @@ export default function Header() {
             >
               /g
             </Badge>
-            <Badge variant="outline" className="hidden lg:block ">
+            <Badge variant="outline" className="hidden lg:block">
               <h1 className="text-2xl font-bold">Regex Mastery</h1>
             </Badge>
           </div>
         </Link>
 
-        <nav className="flex flex-row gap-4 lg:gap-8 flex-1 justify-center mt-1">
-          <Link
-            href="/learn"
-            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
-          >
-            Learn
-          </Link>
-          <Link
-            href="/challenges"
-            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
-          >
-            Challenges
-          </Link>
-          <Link
-            href="/cheatsheet"
-            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
-          >
-            Cheatsheet
-          </Link>
-          <Link
-            href="/playground"
-            className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
-          >
-            Playground
-          </Link>
+        <nav className="hidden sm:flex flex-row gap-4 lg:gap-8 flex-1 justify-center mt-1">
+          {navLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="font-bold text-base border-b-2 border-transparent hover:border-primary transition-colors pb-1"
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
 
-        <Select>
-          <Select.Trigger className="min-w-0 w-20">
-            <Select.Value placeholder="EN" />
-          </Select.Trigger>
-          <Select.Content>
-            <Select.Group>
-              <Select.Item value="en">EN</Select.Item>
-              <Select.Item value="fi">FI</Select.Item>
-            </Select.Group>
-          </Select.Content>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Select>
+            <Select.Trigger className="min-w-0 w-20">
+              <Select.Value placeholder="EN" />
+            </Select.Trigger>
+            <Select.Content>
+              <Select.Group>
+                <Select.Item value="en">EN</Select.Item>
+                <Select.Item value="fi">FI</Select.Item>
+              </Select.Group>
+            </Select.Content>
+          </Select>
+
+          <Menu>
+            <Menu.Trigger className="sm:hidden border-2 border-foreground p-1.5 rounded cursor-pointer">
+              <MenuIcon className="h-5 w-5" />
+            </Menu.Trigger>
+            <Menu.Content className="z-50 right-0">
+              {navLinks.map(({ href, label }) => (
+                <Menu.Item key={href}>
+                  <Link href={href} className="block w-full font-bold px-1">
+                    {label}
+                  </Link>
+                </Menu.Item>
+              ))}
+            </Menu.Content>
+          </Menu>
+        </div>
       </div>
     </header>
   );
