@@ -1,8 +1,11 @@
+"use client";
+
 import { Badge } from "./retroui/Badge";
 import Link from "next/link";
-import { Select } from "./retroui/Select";
+import { Switch } from "./retroui/Switch";
 import { Menu } from "./retroui/Menu";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, Moon, Sun } from "lucide-react";
+import { useTheme } from "./ThemeProvider";
 
 const navLinks = [
   { href: "/learn", label: "Learn" },
@@ -12,6 +15,8 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <header className="bg-background py-4 border-b-2 border-foreground">
       <div className="container mx-auto px-4 flex items-center justify-between gap-4">
@@ -42,17 +47,15 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Select>
-            <Select.Trigger className="min-w-0 w-20">
-              <Select.Value placeholder="EN" />
-            </Select.Trigger>
-            <Select.Content>
-              <Select.Group>
-                <Select.Item value="en">EN</Select.Item>
-                <Select.Item value="fi">FI</Select.Item>
-              </Select.Group>
-            </Select.Content>
-          </Select>
+          <div className="flex items-center gap-2">
+            <Sun className="h-4 w-4" />
+            <Switch
+              checked={theme === "dark"}
+              onCheckedChange={toggleTheme}
+              aria-label="Toggle dark mode"
+            />
+            <Moon className="h-4 w-4" />
+          </div>
 
           <Menu>
             <Menu.Trigger className="sm:hidden border-2 border-foreground p-1.5 rounded cursor-pointer">
