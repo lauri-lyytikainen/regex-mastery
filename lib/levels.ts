@@ -400,7 +400,7 @@ export const chapters: RegexChapter[] = [
         description:
           "Match 'The' only when it starts a line. Enable the m flag so ^ applies to each line, not just the whole text.",
         hint: "Use: ^The — enable the m flag",
-        text: "The cat sat.\nThe dog ran.\nA bird flew.\nThe fish swam.",
+        text: "The cat sat on the mat.\nThe dog ran past the car.\nA bird called The Raven flew.\nThe fish swam by the rock.\nShe loved The Ocean.\nThe sun set behind The hill.",
         solutionRegex: "^The",
         solutionFlags: "gm",
       },
