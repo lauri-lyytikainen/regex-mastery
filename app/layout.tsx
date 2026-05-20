@@ -39,7 +39,7 @@ export default function RootLayout({
         space.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

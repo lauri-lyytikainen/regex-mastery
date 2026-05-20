@@ -24,7 +24,7 @@ export const RegexHighlighter = ({
   flags = "",
   text,
   className = "",
-  matchClassName = "bg-yellow-200 rounded-sm m-0",
+  matchClassName = "bg-primary/50 rounded-sm m-0",
   onError,
   isCorrect,
 }: Props) => {
@@ -50,7 +50,7 @@ export const RegexHighlighter = ({
       if (m.start > cursor)
         out.push(<span key={`text-${i}`}>{text.slice(cursor, m.start)}</span>);
       out.push(
-        <span key={`match-${i}`} className={cn(matchClassName, "mx-1 ring-1 ring-yellow-200")}>
+        <span key={`match-${i}`} className={cn(matchClassName, "mx-1 ring-1 ring-primary")}>
           {text.slice(m.start, m.end)}
         </span>,
       );
@@ -67,7 +67,7 @@ export const RegexHighlighter = ({
         <div className="mb-2 text-sm flex items-center justify-between">
           <div className="flex items-center flex-wrap gap-1">
             <span className="font-medium">Pattern:</span>
-            <code className="px-1 py-0.5 rounded bg-surface text-sm inline-flex items-center flex-wrap gap-y-0.5">
+            <code className="px-1 py-0.5 rounded bg-muted text-foreground text-sm inline-flex items-center flex-wrap gap-y-0.5">
               {patternTokens.map((t, i) => <TokenSpan key={i} token={t} />)}
               {flags && <span className="text-muted-foreground ml-0.5">/{flags}</span>}
             </code>
