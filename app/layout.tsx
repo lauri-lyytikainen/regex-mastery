@@ -3,6 +3,7 @@ import { Archivo_Black, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Footer from "@/components/Footer";
 
 const archivoBlack = Archivo_Black({
   subsets: ["latin"],
@@ -40,7 +41,10 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
