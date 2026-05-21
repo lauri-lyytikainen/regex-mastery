@@ -5,6 +5,7 @@ import { Input } from "@/components/retroui/Input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/retroui/ToggleGroup";
 import { Tooltip } from "@/components/retroui/Tooltip";
 import RegexHighlighter from "@/components/RegexHighlighter";
+import { FLAG_LIST, FLAG_DESCRIPTIONS, type Flag } from "@/lib/flags";
 
 interface Props {
   initialPattern?: string;
@@ -13,15 +14,6 @@ interface Props {
   onChange?: (pattern: string, flags: Flag[]) => void;
   isCorrect?: boolean;
 }
-
-const FLAG_LIST = ["g", "i", "m"] as const;
-type Flag = (typeof FLAG_LIST)[number];
-
-const FLAG_DESCRIPTIONS: Record<string, string> = {
-  g: "Global — find all matches instead of stopping after the first.",
-  i: "Case-insensitive — match letters regardless of case.",
-  m: "Multiline — ^ and $ match start/end of lines, not just the whole string.",
-};
 
 export const RegexEditor = ({
   initialPattern = "",

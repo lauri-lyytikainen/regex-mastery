@@ -103,6 +103,20 @@ function groupOpenDesc(raw: string): string {
   return map[raw] ?? `Group: ${raw}`;
 }
 
+export const WHITESPACE_GLYPHS: Record<string, string> = {
+  " ":  "⎵",
+  "\t": "→",
+  "\n": "↵",
+  "\r": "↵",
+};
+
+function literalDesc(ch: string, inCharClass = false): string {
+  const glyph = WHITESPACE_GLYPHS[ch];
+  const shown = glyph ? `'${glyph}'` : `'${ch}'`;
+  const suffix = inCharClass ? " (inside a character class)" : "";
+  return `Literal character — matches ${shown} exactly${suffix}`;
+}
+
 function tokenizeCharClass(inner: string): RegexToken[] {
   const tokens: RegexToken[] = [];
   let i = 0;
@@ -144,7 +158,7 @@ function tokenizeCharClass(inner: string): RegexToken[] {
       continue;
     }
 
-    tokens.push({ kind: "literal", raw: ch, description: `Literal character — matches '${ch}' exactly` });
+    tokens.push({ kind: "literal", raw: ch, description: literalDesc(ch, true) });
     i++;
   }
 
@@ -228,7 +242,7 @@ export function tokenize(pattern: string): RegexToken[] {
     if (ch === ".") { tokens.push({ kind: "dot",         raw: ".", description: "Wildcard — matches any single character except a newline" });                  i++; continue; }
     if (ch === "|") { tokens.push({ kind: "alternation", raw: "|", description: "Alternation — matches the expression on the left OR the one on the right" }); i++; continue; }
 
-    tokens.push({ kind: "literal", raw: ch, description: `Literal character — matches '${ch}' exactly` });
+    tokens.push({ kind: "literal", raw: ch, description: literalDesc(ch) });
     i++;
   }
 
